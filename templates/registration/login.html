@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Ingresar · NEXUS Talent IA{% endblock %}
+
+{% block content %}
+<section class="acceso">
+  <p class="marca-sola">NEXUS Talent IA</p>
+  <h1>Ingresar</h1>
+  <p class="ayuda">Usa el correo de tu cuenta. La decision de seleccion sigue siendo de una persona.</p>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Entrar</button>
+  </form>
+  <p class="enlace"><a href="{% url 'password_reset' %}">Olvidé mi contraseña</a></p>
+</section>
+{% endblock %}

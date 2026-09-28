@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio · NEXUS Talent IA{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <p class="kicker">Panel</p>
+  <h1>Hola, {{ user.nombre }}</h1>
+  <p class="ayuda">Este es el punto de partida. Las vacantes y los candidatos se construyen sobre los datos que ya quedaron definidos.</p>
+  <div class="cifras">
+    <article>
+      <strong>{{ total_vacantes }}</strong>
+      <span>Vacantes</span>
+    </article>
+    <article>
+      <strong>{{ vacantes_abiertas }}</strong>
+      <span>Publicadas</span>
+    </article>
+    <article>
+      <strong>{{ total_personas }}</strong>
+      <span>Personas</span>
+    </article>
+    <article>
+      <strong>{{ total_postulaciones }}</strong>
+      <span>Postulaciones</span>
+    </article>
+  </div>
+</section>
+{% endblock %}

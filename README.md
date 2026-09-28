@@ -8,7 +8,7 @@ Plataforma web en Django y MySQL. La inteligencia artificial recomienda y explic
 
 - `main` recibe solo lo que ya esta listo, mediante un pull request.
 - `Didier` es la rama de la base del proyecto: modelo de datos, acceso y vista principal.
-- `Aileen` es la rama de vacantes, candidatos y postulaciones. Se crea cuando la base ya esta en `main`.
+- `Ailyn` es la rama de vacantes, candidatos y postulaciones. Se crea cuando la base ya esta en `main`.
 
 ## Arranque local
 

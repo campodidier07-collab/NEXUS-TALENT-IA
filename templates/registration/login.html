@@ -3,15 +3,29 @@
 {% block title %}Ingresar · NEXUS Talent IA{% endblock %}
 
 {% block content %}
-<section class="acceso">
-  <p class="marca-sola">NEXUS Talent IA</p>
-  <h1>Ingresar</h1>
-  <p class="ayuda">Usa el correo de tu cuenta. La decision de seleccion sigue siendo de una persona.</p>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Entrar</button>
-  </form>
-  <p class="enlace"><a href="{% url 'password_reset' %}">Olvidé mi contraseña</a></p>
-</section>
+<div class="flex items-center justify-center min-h-[calc(100vh-100px)]">
+  <section class="w-full max-w-md p-8 bg-bg-sidebar rounded-2xl border border-border-dark shadow-xl backdrop-blur-sm relative overflow-hidden">
+    <!-- Subtle glow behind the card -->
+    <div class="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-[50px] pointer-events-none"></div>
+    <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-secondary/20 rounded-full blur-[50px] pointer-events-none"></div>
+
+    <div class="relative z-10">
+      <p class="text-xs font-bold tracking-widest text-primary uppercase mb-2">NEXUS Talent IA</p>
+      <h1 class="text-3xl font-black text-white mb-3">Ingresar</h1>
+      <p class="text-text-muted text-sm mb-6 leading-relaxed">Usa el correo de tu cuenta. La decisión de selección sigue siendo de una persona.</p>
+      
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="space-y-4 [&>p]:flex [&>p]:flex-col [&>p]:gap-1.5 [&_label]:text-sm [&_label]:font-medium [&_label]:text-white [&_input]:w-full [&_input]:px-3 [&_input]:py-2 [&_input]:bg-bg-base [&_input]:border [&_input]:border-border-dark [&_input]:rounded-lg [&_input]:text-white focus:[&_input]:border-primary focus:[&_input]:outline-none focus:[&_input]:ring-1 focus:[&_input]:ring-primary/50 [&_input]:transition-all">
+          {{ form.as_p }}
+        </div>
+        <button type="submit" class="w-full py-2.5 px-4 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-[0_0_15px_rgba(33,150,243,0.3)] mt-6">Entrar</button>
+      </form>
+      
+      <p class="mt-6 text-center text-sm">
+        <a href="{% url 'password_reset' %}" class="text-text-muted hover:text-white transition-colors">Olvidé mi contraseña</a>
+      </p>
+    </div>
+  </section>
+</div>
 {% endblock %}

@@ -32,7 +32,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'accounts.Usuario'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'inicio'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'NEXUS Talent IA <no-reply@nexus.local>'
 

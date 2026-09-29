@@ -5,14 +5,15 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
 from apps.accounts.forms import CorreoAuthenticationForm
-from apps.dashboard.views import inicio
+from apps.dashboard.views import inicio, portada
 
 admin.site.site_header = 'NEXUS Talent IA'
 admin.site.site_title = 'NEXUS'
 admin.site.index_title = 'Administración'
 
 urlpatterns = [
-    path('', inicio, name='inicio'),
+    path('', portada, name='inicio'),
+    path('panel/', inicio, name='panel'),
     path(
         'cuentas/ingresar/',
         auth_views.LoginView.as_view(

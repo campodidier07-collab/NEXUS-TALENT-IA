@@ -42,6 +42,6 @@ El enlace de recuperacion de contrasena se imprime en la terminal.
 | `accounts` | Didier | Usuario, login y recuperacion de contrasena |
 | `organization` | Didier | Empresa, area, cargo y habilidades |
 | `people` | Didier | Persona, hoja de vida y empleado |
-| `recruitment` | Aileen, pantallas | Vacante, postulacion, entrevista y analisis |
+| `recruitment` | Ailyn, pantallas | Vacante, postulacion, entrevista y analisis |
 | `auditoria` | Didier | Registro de acciones |
 | `dashboard` | Didier | Vista de inicio |

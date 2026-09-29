@@ -1,0 +1,25 @@
+{
+  "name": "nexus-talent-ia",
+  "version": "1.0.0",
+  "description": "Sistema inteligente para gestionar y potenciar el talento humano.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/campodidier07-collab/NEXUS-TALENT-IA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/campodidier07-collab/NEXUS-TALENT-IA/issues"
+  },
+  "homepage": "https://github.com/campodidier07-collab/NEXUS-TALENT-IA#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

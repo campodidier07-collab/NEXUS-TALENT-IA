@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  /* NEXUS DARK Colors */
+  --color-bg-base: #070B14;
+  --color-bg-sidebar: #0D1322;
+  --color-bg-card: #111A2E;
+  
+  --color-primary: #2196F3;
+  --color-ai: #38BDF8;
+  --color-secondary: #7C3AED;
+  
+  --color-text-main: #F8FAFC;
+  --color-text-muted: #94A3B8;
+  
+  --color-border-dark: #26324A;
+  
+  --font-inter: 'Inter', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-bg-base);
+    color: var(--color-text-main);
+    font-family: var(--font-inter);
+  }
+}

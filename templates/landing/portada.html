@@ -1,0 +1,496 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEXUS Talent IA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/portada.css' %}">
+  <style>
+    /* Clases para animaciones al hacer scroll */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    /* Retrasos para efecto cascada (stagger) */
+    .delay-100 { transition-delay: 100ms; }
+    .delay-200 { transition-delay: 200ms; }
+    .delay-300 { transition-delay: 300ms; }
+    
+    /* Borde mágico giratorio para botón CTA */
+    @keyframes border-spin {
+      100% { transform: rotate(1turn); }
+    }
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes gradient-x {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .magic-border-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 300%; height: 300%;
+      background: conic-gradient(from 0deg, transparent 0%, transparent 60%, var(--color-primary) 80%, var(--color-secondary) 100%);
+      transform-origin: 0 0;
+      transform: rotate(0) translate(-50%, -50%);
+      animation: border-spin 3s linear infinite;
+      z-index: -2;
+    }
+    .magic-border-btn::after {
+      content: '';
+      position: absolute;
+      inset: 2px; /* Grosor del borde */
+      background: #070B14; /* Color base */
+      border-radius: inherit;
+      z-index: -1;
+      transition: background 0.3s;
+    }
+    .magic-border-btn:hover::after {
+      background: rgba(33, 150, 243, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-bg-base text-text-main font-inter overflow-x-hidden min-h-screen relative antialiased selection:bg-primary/30 selection:text-white">
+  
+  <!-- Subtle Breathing Background Gradients -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute rounded-full opacity-20 blur-[120px] w-[600px] h-[600px] bg-primary -top-[200px] -left-[200px] animate-[pulse_8s_ease-in-out_infinite]"></div>
+    <div class="absolute rounded-full opacity-10 blur-[120px] w-[500px] h-[500px] bg-secondary top-[40%] -right-[100px] animate-[pulse_6s_ease-in-out_infinite_alternate]"></div>
+    <div class="absolute rounded-full opacity-[0.03] blur-[100px] w-[800px] h-[800px] bg-ai bottom-[-200px] left-[20%] animate-[pulse_10s_ease-in-out_infinite]"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="fixed z-50 top-0 left-0 right-0 flex items-center justify-between px-5 lg:px-[5vw] py-4 bg-bg-base/70 backdrop-blur-lg border-b border-white/5 transition-all duration-500 hover:bg-bg-base/90" id="navbar">
+    <a class="flex items-center gap-3 text-white no-underline group" href="{% url 'inicio' %}">
+      <!-- Icon/Logo -->
+      <img src="{% static 'img/icono.png' %}" alt="NEXUS Logo" class="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(33,150,243,0.5)] group-hover:drop-shadow-[0_0_25px_rgba(33,150,243,0.8)] transition-all duration-500 group-hover:scale-110">
+      <div class="flex flex-col leading-none">
+        <span class="text-xl font-black tracking-wide text-white group-hover:text-primary transition-colors duration-300">NEXUS</span>
+        <span class="text-[10px] font-bold tracking-widest text-text-muted mt-0.5">TALENT <span class="text-ai">IA</span></span>
+      </div>
+    </a>
+    
+    <nav class="hidden md:flex gap-8">
+      <a class="text-white text-[13px] font-medium transition-colors hover:text-primary relative after:content-[''] after:absolute after:-bottom-5 after:left-0 after:w-full after:h-0.5 after:bg-primary" href="#inicio">Inicio</a>
+      <a class="text-text-muted text-[13px] font-medium transition-colors hover:text-white" href="#plataforma">Características</a>
+      <a class="text-text-muted text-[13px] font-medium transition-colors hover:text-white" href="#roles">Módulos</a>
+      <a class="text-text-muted text-[13px] font-medium transition-colors hover:text-white" href="#beneficios">Precios</a>
+      <a class="text-text-muted text-[13px] font-medium transition-colors hover:text-white" href="#contacto">Contacto</a>
+    </nav>
+    
+    <div class="flex items-center gap-4">
+      <button class="hidden lg:flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 transition-colors text-text-muted hover:text-white">
+        <i class="fa-regular fa-moon"></i>
+      </button>
+      
+      {% if user.is_authenticated %}
+      <a class="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold bg-gradient-to-r from-primary to-secondary text-white hover:scale-105 transition-all shadow-[0_0_15px_rgba(33,150,243,0.3)]" href="{% url 'panel' %}">Panel</a>
+      {% else %}
+      <a class="hidden sm:inline-flex items-center justify-center rounded-full px-5 py-2 text-sm font-medium bg-transparent text-white border border-border-dark hover:bg-white/5 transition-all hover:-translate-y-0.5" href="{% url 'login' %}">Iniciar sesión</a>
+      <a class="inline-flex items-center justify-center rounded-full px-5 py-2 text-sm font-medium bg-gradient-to-r from-primary to-secondary text-white hover:scale-105 transition-all shadow-[0_0_15px_rgba(33,150,243,0.3)] hover:shadow-[0_0_25px_rgba(33,150,243,0.5)]" href="{% url 'login' %}">Comenzar gratis</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section with Massive Impact -->
+    <section class="relative min-h-[95vh] flex items-center pt-[120px] pb-10 px-5 lg:px-[5vw] overflow-hidden" id="inicio">
+      <!-- High-tech Grid Background -->
+      <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_0%,black_40%,transparent_100%)] pointer-events-none -z-10"></div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center max-w-[1400px] mx-auto w-full relative z-10">
+        
+        <!-- Left Content -->
+        <div class="lg:col-span-6 flex flex-col items-start">
+          <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-md mb-8 hover:bg-primary/20 transition-colors shadow-[0_0_20px_rgba(33,150,243,0.15)] cursor-default">
+            <i class="fa-solid fa-bolt text-ai text-sm animate-pulse"></i>
+            <span class="text-xs font-bold text-white tracking-wide uppercase">El nuevo estándar en RR.HH.</span>
+          </div>
+          
+          <h1 class="reveal delay-100 text-[clamp(44px,6vw,76px)] font-black leading-[1.05] tracking-tighter mb-6 text-white text-balance drop-shadow-lg">
+            El talento correcto,<br>
+            <span class="bg-gradient-to-r from-primary via-ai to-secondary bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient-x_4s_linear_infinite] drop-shadow-[0_0_30px_rgba(33,150,243,0.3)]">decisiones precisas.</span>
+          </h1>
+          
+          <p class="reveal delay-200 text-text-muted text-lg lg:text-xl mb-10 max-w-[540px] leading-relaxed text-balance font-medium">
+            Centraliza tu reclutamiento y empodera a tu equipo con Inteligencia Artificial. Menos tiempo filtrando, más tiempo construyendo equipos extraordinarios.
+          </p>
+          
+          <div class="reveal delay-300 flex flex-wrap items-center gap-5">
+            {% if user.is_authenticated %}
+            <a href="{% url 'panel' %}" class="relative inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-bold bg-white text-bg-base hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] transition-all duration-300 group overflow-hidden">
+              <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
+              Ir al panel <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            {% else %}
+            <a href="{% url 'login' %}" class="relative inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-bold bg-white text-bg-base hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] transition-all duration-300 group overflow-hidden">
+              <!-- Brillo animado (Shimmer) -->
+              <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-black/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
+              Comenzar ahora <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            {% endif %}
+            <a href="#plataforma" class="inline-flex items-center justify-center gap-3 rounded-full px-8 py-4 text-base font-bold bg-white/5 text-white border border-border-dark hover:bg-white/10 hover:border-white/30 transition-all duration-300 group backdrop-blur-md">
+              <i class="fa-solid fa-play text-xs w-6 h-6 rounded-full bg-white text-bg-base flex items-center justify-center pl-0.5 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all shadow-lg"></i>
+              Ver cómo funciona
+            </a>
+          </div>
+          
+          <!-- Social Proof under buttons -->
+          <div class="reveal delay-400 mt-10 flex items-center gap-4 border-t border-border-dark pt-6 w-full max-w-[500px]">
+            <div class="flex -space-x-3">
+              <img src="https://i.pravatar.cc/100?img=1" class="w-10 h-10 rounded-full border-2 border-bg-base object-cover">
+              <img src="https://i.pravatar.cc/100?img=2" class="w-10 h-10 rounded-full border-2 border-bg-base object-cover">
+              <img src="https://i.pravatar.cc/100?img=3" class="w-10 h-10 rounded-full border-2 border-bg-base object-cover">
+              <div class="w-10 h-10 rounded-full border-2 border-bg-base bg-bg-card flex items-center justify-center text-[10px] font-bold text-white z-10">+2K</div>
+            </div>
+            <div class="text-sm font-medium text-text-muted">
+              Equipos de HR ya lo usan <br>
+              <span class="text-yellow-400 text-xs"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span> 4.9/5
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Image with Floating UI Elements -->
+        <div class="lg:col-span-6 reveal delay-200 relative w-full flex justify-center lg:justify-end mt-12 lg:mt-0 perspective-[1200px]">
+          
+          <div class="absolute inset-0 bg-gradient-to-tr from-primary/30 to-secondary/30 blur-[100px] rounded-full scale-90 group-hover:scale-100 transition-transform duration-1000 -z-10"></div>
+          
+          <div class="relative max-w-[650px] w-full">
+            <!-- Main Photo -->
+            <div class="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.6)] drop-shadow-[0_0_30px_rgba(33,150,243,0.2)] hover:drop-shadow-[0_0_50px_rgba(33,150,243,0.4)] transition-all duration-700 hover:-translate-y-2 group">
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="NEXUS Talent Equipo" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-bg-base/80 via-transparent to-transparent pointer-events-none mix-blend-multiply"></div>
+            </div>
+            
+            <!-- Floating UI Card 1: AI Match -->
+            <div class="absolute -top-6 -right-6 lg:-right-12 bg-bg-base/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-[0_20px_40px_rgba(0,0,0,0.5)] flex items-center gap-4 animate-[float_5s_ease-in-out_infinite] z-20">
+              <div class="relative">
+                <svg class="w-12 h-12 transform -rotate-90">
+                  <circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.1)" stroke-width="4" fill="none"></circle>
+                  <circle cx="24" cy="24" r="20" stroke="#38BDF8" stroke-width="4" fill="none" stroke-dasharray="125" stroke-dashoffset="10" stroke-linecap="round"></circle>
+                </svg>
+                <i class="fa-solid fa-robot text-ai absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm"></i>
+              </div>
+              <div>
+                <p class="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-0.5">Compatibilidad</p>
+                <p class="text-xl font-black text-white">98% Match</p>
+              </div>
+            </div>
+            
+            <!-- Floating UI Card 2: Notification -->
+            <div class="absolute -bottom-8 -left-6 lg:-left-10 bg-bg-base/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-[0_20px_40px_rgba(0,0,0,0.5)] flex items-center gap-3 animate-[float_6s_ease-in-out_infinite_1s] z-20">
+              <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+                <i class="fa-solid fa-check text-emerald-400"></i>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-white">Candidato contratado</p>
+                <p class="text-[11px] text-text-muted mt-0.5">Desarrollador Senior · Hace 2 min</p>
+              </div>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- Features Row (6 Icons) -->
+    <section class="py-16 border-y border-border-dark bg-bg-base/50 backdrop-blur-sm relative z-20" id="plataforma">
+      <div class="max-w-[1400px] mx-auto px-5 lg:px-[5vw]">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+          
+          <div class="reveal flex flex-col gap-4 group hover:-translate-y-2 transition-transform cursor-default duration-300">
+            <div class="w-14 h-14 rounded-full border border-border-dark bg-bg-card flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(33,150,243,0.3)] transition-all duration-300">
+              <i class="fa-solid fa-user-plus text-primary text-lg group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div>
+              <h3 class="text-white font-semibold text-[15px] mb-1 group-hover:text-primary transition-colors">Reclutamiento</h3>
+              <p class="text-text-muted text-sm leading-relaxed">Automatiza y agiliza la búsqueda.</p>
+            </div>
+          </div>
+          
+          <div class="reveal delay-100 flex flex-col gap-4 group hover:-translate-y-2 transition-transform cursor-default duration-300">
+            <div class="w-14 h-14 rounded-full border border-border-dark bg-bg-card flex items-center justify-center group-hover:border-secondary/50 group-hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all duration-300">
+              <i class="fa-solid fa-bullseye text-secondary text-lg group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div>
+              <h3 class="text-white font-semibold text-[15px] mb-1 group-hover:text-secondary transition-colors">Selección</h3>
+              <p class="text-text-muted text-sm leading-relaxed">Match de IA preciso.</p>
+            </div>
+          </div>
+          
+          <div class="reveal delay-200 flex flex-col gap-4 group hover:-translate-y-2 transition-transform cursor-default duration-300">
+            <div class="w-14 h-14 rounded-full border border-border-dark bg-bg-card flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(33,150,243,0.3)] transition-all duration-300">
+              <i class="fa-solid fa-network-wired text-primary text-lg group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div>
+              <h3 class="text-white font-semibold text-[15px] mb-1 group-hover:text-primary transition-colors">Gestión</h3>
+              <p class="text-text-muted text-sm leading-relaxed">Administración centralizada.</p>
+            </div>
+          </div>
+          
+          <div class="reveal delay-300 flex flex-col gap-4 group hover:-translate-y-2 transition-transform cursor-default duration-300">
+            <div class="w-14 h-14 rounded-full border border-border-dark bg-bg-card flex items-center justify-center group-hover:border-secondary/50 group-hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all duration-300">
+              <i class="fa-solid fa-route text-secondary text-lg group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div>
+              <h3 class="text-white font-semibold text-[15px] mb-1 group-hover:text-secondary transition-colors">Seguimiento</h3>
+              <p class="text-text-muted text-sm leading-relaxed">Impulsa el crecimiento.</p>
+            </div>
+          </div>
+          
+          <div class="reveal delay-400 flex flex-col gap-4 group hover:-translate-y-2 transition-transform cursor-default duration-300">
+            <div class="w-14 h-14 rounded-full border border-border-dark bg-bg-card flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(33,150,243,0.3)] transition-all duration-300">
+              <i class="fa-solid fa-graduation-cap text-primary text-lg group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div>
+              <h3 class="text-white font-semibold text-[15px] mb-1 group-hover:text-primary transition-colors">Capacitación</h3>
+              <p class="text-text-muted text-sm leading-relaxed">Fomenta habilidades.</p>
+            </div>
+          </div>
+          
+          <div class="reveal delay-500 flex flex-col gap-4 group hover:-translate-y-2 transition-transform cursor-default duration-300">
+            <div class="w-14 h-14 rounded-full border border-border-dark bg-bg-card flex items-center justify-center group-hover:border-secondary/50 group-hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all duration-300">
+              <i class="fa-solid fa-chart-line text-secondary text-lg group-hover:scale-110 transition-transform"></i>
+            </div>
+            <div>
+              <h3 class="text-white font-semibold text-[15px] mb-1 group-hover:text-secondary transition-colors">Reportes</h3>
+              <p class="text-text-muted text-sm leading-relaxed">Datos en tiempo real.</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works (Interactive Glow Cards) -->
+    <section class="py-24 px-5 lg:px-[5vw] relative z-20 overflow-hidden">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[1px] bg-gradient-to-r from-transparent via-border-dark to-transparent -z-10"></div>
+      <div class="max-w-[1400px] mx-auto">
+        <div class="reveal text-center mb-16">
+          <span class="text-secondary text-xs font-bold tracking-widest uppercase mb-4 inline-block px-4 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 shadow-[0_0_15px_rgba(124,58,237,0.2)]">Proceso Inteligente</span>
+          <h2 class="text-3xl lg:text-4xl font-bold text-white leading-tight">Así funciona el flujo de talento</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="glow-container">
+          
+          <div class="reveal delay-100 glow-card relative bg-bg-card border border-border-dark rounded-2xl p-8 transition-transform duration-300 hover:-translate-y-2 group overflow-hidden">
+            <!-- Glow effect injected via JS -->
+            <div class="glow-effect absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" style="background: radial-gradient(400px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(33,150,243,0.1), transparent 40%); z-index: 0;"></div>
+            
+            <div class="relative z-10">
+              <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:bg-primary/20 shadow-[0_0_20px_transparent] group-hover:shadow-[0_0_20px_rgba(33,150,243,0.3)]">
+                <span class="text-2xl font-black text-primary">1</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-3">Atrae</h3>
+              <p class="text-text-muted text-sm leading-relaxed">Publica la vacante con los requisitos clave y centraliza todos los currículums en un solo repositorio inteligente.</p>
+            </div>
+          </div>
+          
+          <div class="reveal delay-200 glow-card relative bg-bg-card border border-border-dark rounded-2xl p-8 transition-transform duration-300 hover:-translate-y-2 group overflow-hidden">
+            <div class="glow-effect absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" style="background: radial-gradient(400px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(124,58,237,0.1), transparent 40%); z-index: 0;"></div>
+            
+            <div class="relative z-10">
+              <div class="w-14 h-14 rounded-full bg-secondary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:bg-secondary/20 shadow-[0_0_20px_transparent] group-hover:shadow-[0_0_20px_rgba(124,58,237,0.3)]">
+                <span class="text-2xl font-black text-secondary">2</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-3">Analiza</h3>
+              <p class="text-text-muted text-sm leading-relaxed">Nuestra IA procesa los perfiles, extrae habilidades y te muestra el porcentaje de compatibilidad con explicación.</p>
+            </div>
+          </div>
+          
+          <div class="reveal delay-300 glow-card relative bg-bg-card border border-border-dark rounded-2xl p-8 transition-transform duration-300 hover:-translate-y-2 group overflow-hidden">
+            <div class="glow-effect absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" style="background: radial-gradient(400px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(56,189,248,0.1), transparent 40%); z-index: 0;"></div>
+            
+            <div class="relative z-10">
+              <div class="w-14 h-14 rounded-full bg-ai/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:bg-ai/20 shadow-[0_0_20px_transparent] group-hover:shadow-[0_0_20px_rgba(56,189,248,0.3)]">
+                <span class="text-2xl font-black text-ai">3</span>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-3">Decide</h3>
+              <p class="text-text-muted text-sm leading-relaxed">Tú tomas la última decisión. Vincula al mejor candidato y mantén su historial como empleado activo.</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- Why NEXUS & Metrics Section -->
+    <section class="py-24 px-5 lg:px-[5vw] relative overflow-hidden" id="beneficios">
+      <!-- Wave background left -->
+      <div class="absolute bottom-0 left-0 w-full h-[500px] bg-gradient-to-tr from-primary/10 via-transparent to-transparent opacity-50 blur-[80px] pointer-events-none"></div>
+      
+      <div class="max-w-[1400px] mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Left Text -->
+          <div class="reveal lg:col-span-5">
+            <p class="text-primary text-xs font-bold tracking-widest uppercase mb-4">¿Por qué Nexus?</p>
+            <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6 leading-tight">
+              Tecnología + Talento = <br><span class="bg-gradient-to-r from-primary to-ai bg-clip-text text-transparent">Grandes Resultados</span>
+            </h2>
+            <p class="text-text-muted text-[15px] leading-relaxed mb-8 max-w-[450px]">
+              Combinamos la inteligencia artificial con la gestión humana para que las empresas encuentren, desarrollen y retengan el mejor talento, de forma más rápida, simple y efectiva.
+            </p>
+            <a href="#contacto" class="inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium bg-transparent text-white border border-border-dark hover:bg-white/10 hover:border-white/30 transition-all group">
+              Conoce más <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+            </a>
+          </div>
+          
+          <!-- Right Metrics Cards (Bento Box with Glow) -->
+          <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6" id="bento-container">
+            
+            <div class="reveal delay-100 glow-card relative bg-bg-card border border-border-dark rounded-2xl p-6 flex flex-col hover:-translate-y-2 hover:border-primary/50 hover:shadow-[0_0_25px_rgba(33,150,243,0.15)] transition-all duration-300 group overflow-hidden">
+              <div class="glow-effect absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" style="background: radial-gradient(300px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(33,150,243,0.15), transparent 40%); z-index: 0;"></div>
+              <div class="relative z-10">
+                <div class="w-10 h-10 rounded-lg bg-bg-base border border-border-dark flex items-center justify-center mb-4 shadow-inner group-hover:border-primary/50 transition-colors">
+                  <i class="fa-solid fa-users text-primary group-hover:scale-110 transition-transform"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-white mb-1 drop-shadow-sm">+10K</h3>
+                <p class="text-sm font-medium text-text-muted mb-4">Usuarios activos</p>
+                <div class="mt-auto text-xs font-semibold text-emerald-400 flex items-center gap-1">
+                  <i class="fa-solid fa-arrow-up animate-bounce"></i> 12% este mes
+                </div>
+              </div>
+            </div>
+            
+            <div class="reveal delay-200 glow-card relative bg-bg-card border border-border-dark rounded-2xl p-6 flex flex-col hover:-translate-y-2 hover:border-secondary/50 hover:shadow-[0_0_25px_rgba(124,58,237,0.15)] transition-all duration-300 group overflow-hidden">
+              <div class="glow-effect absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" style="background: radial-gradient(300px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(124,58,237,0.15), transparent 40%); z-index: 0;"></div>
+              <div class="relative z-10">
+                <div class="w-10 h-10 rounded-lg bg-bg-base border border-border-dark flex items-center justify-center mb-4 shadow-inner group-hover:border-secondary/50 transition-colors">
+                  <i class="fa-solid fa-briefcase text-secondary group-hover:scale-110 transition-transform"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-white mb-1 drop-shadow-sm">+2.5K</h3>
+                <p class="text-sm font-medium text-text-muted mb-4">Vacantes gestionadas</p>
+                <div class="mt-auto text-xs font-semibold text-emerald-400 flex items-center gap-1">
+                  <i class="fa-solid fa-arrow-up animate-bounce" style="animation-delay: 200ms;"></i> 18% este mes
+                </div>
+              </div>
+            </div>
+            
+            <div class="reveal delay-300 glow-card relative bg-bg-card border border-border-dark rounded-2xl p-6 flex flex-col hover:-translate-y-2 hover:border-primary/50 hover:shadow-[0_0_25px_rgba(33,150,243,0.15)] transition-all duration-300 group overflow-hidden">
+              <div class="glow-effect absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" style="background: radial-gradient(300px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(33,150,243,0.15), transparent 40%); z-index: 0;"></div>
+              <div class="relative z-10">
+                <div class="w-10 h-10 rounded-lg bg-bg-base border border-border-dark flex items-center justify-center mb-4 shadow-inner group-hover:border-primary/50 transition-colors">
+                  <i class="fa-solid fa-bullseye text-primary group-hover:scale-110 transition-transform"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-white mb-1 drop-shadow-sm">92%</h3>
+                <p class="text-sm font-medium text-text-muted mb-4">Match de candidatos</p>
+                <div class="mt-auto text-xs font-semibold text-emerald-400 flex items-center gap-1">
+                  <i class="fa-solid fa-arrow-up animate-bounce" style="animation-delay: 400ms;"></i> 14% este mes
+                </div>
+              </div>
+            </div>
+            
+            <div class="reveal delay-400 glow-card relative bg-bg-card border border-border-dark rounded-2xl p-6 flex flex-col hover:-translate-y-2 hover:border-secondary/50 hover:shadow-[0_0_25px_rgba(124,58,237,0.15)] transition-all duration-300 group overflow-hidden">
+              <div class="glow-effect absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" style="background: radial-gradient(300px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(124,58,237,0.15), transparent 40%); z-index: 0;"></div>
+              <div class="relative z-10">
+                <div class="w-10 h-10 rounded-lg bg-bg-base border border-border-dark flex items-center justify-center mb-4 shadow-inner group-hover:border-secondary/50 transition-colors">
+                  <i class="fa-solid fa-chart-pie text-secondary group-hover:scale-110 transition-transform"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-white mb-1 drop-shadow-sm">+85%</h3>
+                <p class="text-sm font-medium text-text-muted mb-4">Satisfacción empresarial</p>
+                <div class="mt-auto text-xs font-semibold text-emerald-400 flex items-center gap-1">
+                  <i class="fa-solid fa-arrow-up animate-bounce" style="animation-delay: 600ms;"></i> 9% este mes
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          
+        </div>
+      </div>
+    </section>
+    
+    <!-- Massive CTA Section (with Magic Border) -->
+    <section class="py-24 px-5 lg:px-[5vw] relative overflow-hidden flex items-center justify-center">
+      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_70%)]"></div>
+      
+      <div class="reveal bg-bg-card/40 backdrop-blur-xl border border-white/5 rounded-[2rem] p-12 lg:p-20 text-center max-w-[1000px] w-full relative z-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden group hover:shadow-[0_20px_80px_rgba(33,150,243,0.15)] transition-shadow duration-700">
+        <!-- Floating internal orbs -->
+        <div class="absolute -top-20 -left-20 w-40 h-40 bg-primary/30 blur-[50px] rounded-full group-hover:bg-primary/40 transition-colors duration-700"></div>
+        <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-secondary/30 blur-[50px] rounded-full group-hover:bg-secondary/40 transition-colors duration-700"></div>
+        
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-[1px] bg-gradient-to-r from-transparent via-secondary to-transparent opacity-50"></div>
+        
+        <h2 class="text-4xl lg:text-6xl font-black text-white mb-6 leading-[1.1] tracking-tight relative z-10">Eleva tu equipo al <br class="hidden sm:block"> <span class="bg-gradient-to-r from-primary to-ai bg-clip-text text-transparent">siguiente nivel</span></h2>
+        <p class="text-text-muted text-lg lg:text-xl mb-10 max-w-[600px] mx-auto relative z-10 text-balance">Deja de perder tiempo en tareas manuales y permite que la IA haga el trabajo pesado mientras tú tomas las decisiones estratégicas.</p>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 relative z-10">
+          <!-- Magic Border CTA Button -->
+          <a href="{% url 'login' %}" class="relative inline-flex items-center justify-center gap-2 rounded-full px-10 py-4 text-base font-bold text-white transition-transform hover:scale-105 shadow-[0_0_30px_rgba(33,150,243,0.3)] hover:shadow-[0_0_50px_rgba(33,150,243,0.6)] magic-border-btn overflow-hidden">
+            <span class="relative z-10 flex items-center gap-2">Comenzar prueba gratis <i class="fa-solid fa-arrow-right"></i></span>
+          </a>
+          
+          <a href="#contacto" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-10 py-4 text-base font-bold bg-white/5 text-white border border-border-dark hover:bg-white/10 hover:border-white/30 transition-all duration-300">
+            Hablar con ventas
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Simple Corporate Footer -->
+    <footer class="py-10 px-5 lg:px-[5vw] border-t border-border-dark bg-bg-base flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3 group cursor-pointer">
+        <img src="{% static 'img/icono.png' %}" alt="NEXUS Logo" class="w-6 h-6 object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+        <span class="text-text-main font-semibold tracking-widest text-sm group-hover:text-white transition-colors duration-500">NEXUS TALENT IA</span>
+      </div>
+      <p class="text-text-muted text-sm text-center md:text-left">© 2026 NEXUS Talent IA. Todos los derechos reservados.</p>
+      <div class="flex gap-4">
+        <a href="#" class="text-text-muted hover:text-white transition-colors text-sm">Privacidad</a>
+        <a href="#" class="text-text-muted hover:text-white transition-colors text-sm">Términos</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Interactive Magic Scripts -->
+  <script>
+    // 1. Scroll Reveal (Apariciones fluidas)
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          // Opcional: dejar de observar una vez revelado
+          // revealObserver.unobserve(entry.target); 
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // 2. Cursor Glow (Luz del ratón en las tarjetas)
+    const glowCards = document.querySelectorAll('.glow-card');
+    document.addEventListener('mousemove', (e) => {
+      glowCards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // 3. Navbar Blur on Scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-lg', 'bg-bg-base/80');
+        navbar.classList.remove('bg-bg-base/70');
+      } else {
+        navbar.classList.remove('shadow-lg', 'bg-bg-base/80');
+        navbar.classList.add('bg-bg-base/70');
+      }
+    });
+  </script>
+</body>
+</html>

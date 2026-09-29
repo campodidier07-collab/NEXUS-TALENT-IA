@@ -47,7 +47,7 @@ class Vacante(models.Model):
 class Postulacion(models.Model):
     class Estado(models.TextChoices):
         RECIBIDA = 'recibida', 'Recibida'
-        EN_REVISION = 'en_revision', 'En revision'
+        EN_REVISION = 'en_revision', 'En revisión'
         ENTREVISTA = 'entrevista', 'Entrevista'
         PRUEBA = 'prueba', 'Prueba'
         SELECCIONADA = 'seleccionada', 'Seleccionada'

@@ -1,47 +1,35 @@
-# NEXUS Talent IA
+# 🧠 NEXUS Talent IA — Plataforma Inteligente de Gestión y Selección de Talento Humano
 
-Sistema inteligente para gestionar y potenciar el talento humano.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/campodidier07-collab/campodidier07-collab/main/assets/cards/proj_nexus.png" width="80%" alt="NEXUS Talent IA Preview" />
+</p>
 
-Plataforma web en Django y MySQL. La inteligencia artificial recomienda y explica; las decisiones de seleccion quedan en manos del equipo de talento humano.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" />
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
+  <img src="https://img.shields.io/badge/IA_Explicable-HR_Tech-38bdf8?style=for-the-badge" />
+</p>
 
-## Ramas
+---
 
-- `main` recibe solo lo que ya esta listo, mediante un pull request.
-- `Didier` es la rama de la base del proyecto: modelo de datos, acceso y vista principal.
-- `Ailyn` es la rama de vacantes, candidatos y postulaciones. Se crea cuando la base ya esta en `main`.
+## 🎯 Propósito del Proyecto
 
-## Arranque local
+**NEXUS Talent IA** es un sistema inteligente diseñado para gestionar, evaluar y potenciar el talento humano. Construido sobre **Django** y **MySQL**, integra un motor de **Inteligencia Artificial Explicable** que analiza perfiles, calcula compatibilidad y emite recomendaciones fundamentadas, manteniendo siempre la decisión final en manos del equipo de talento humano.
 
-Requiere Python 3.10 y MySQL en ejecucion.
+## 🏗️ Arquitectura & Flujo de Trabajo
+
+- **Motor de Recomendación con IA Explicable:** Evalúa candidatos frente a vacantes y explica de forma transparente los criterios de puntuación (`Match Score`).
+- **Backend Robusto en Django & Python:** Arquitectura modular con autenticación, control de roles y persistencia relacional en **MySQL**.
+- **Flujo Colaborativo Multi-Rama:** Estructurado por dominios (`Frontend`, `Backend`, `Database`, `Inteligencia_Artificial`) con integración continua hacia `main`.
+
+## 🚀 Configuración Local (Windows PowerShell)
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python -m pip install -r requirements.txt
+git clone https://github.com/campodidier07-collab/NEXUS-TALENT-IA.git
+cd NEXUS-TALENT-IA
+.\scripts\setup-entorno.ps1
 ```
 
-Crea la base vacia y copia el archivo de entorno:
-
-```sql
-CREATE DATABASE nexus_talent CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-```powershell
-copy .env.example .env
-.\.venv\Scripts\python manage.py migrate
-.\.venv\Scripts\python manage.py datos_iniciales
-.\.venv\Scripts\python manage.py runserver
-```
-
-El ingreso de prueba queda en `admin@nexus.local` / `NexusAdmin2026`.
-El enlace de recuperacion de contrasena se imprime en la terminal.
-
-## Apps
-
-| App | Responsable ahora | Contenido |
-|---|---|---|
-| `accounts` | Didier | Usuario, login y recuperacion de contrasena |
-| `organization` | Didier | Empresa, area, cargo y habilidades |
-| `people` | Didier | Persona, hoja de vida y empleado |
-| `recruitment` | Aileen, pantallas | Vacante, postulacion, entrevista y analisis |
-| `auditoria` | Didier | Registro de acciones |
-| `dashboard` | Didier | Vista de inicio |
+---
+*Desarrollado con participación de **Didier Puentes** ([@campodidier07-collab](https://github.com/campodidier07-collab)) • Neiva, Colombia 🇨🇴*
